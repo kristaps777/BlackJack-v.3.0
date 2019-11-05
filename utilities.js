@@ -108,25 +108,25 @@ function drawCards() {
     dealerCard_2.innerHTML = drawCard_4.rank;
     dealerCard_2.innerHTML += drawCard_4.suit;
 
-    // count player hand value
-    // handCards.push(cardValues[newCard_1.innerHTML.slice(0, 1)]);
-    // handCards.push(cardValues[newCard_2.innerHTML.slice(0, 1)]);
-
+    // add player card values to hand
     handCards.push(drawCard_1.value);
-    handCards.push(drawCard_2.value);
+    // if 2 Aces are drawn intially, use alternate value for the 2nd Ace
+    if (drawCard_1.rank === '<sup>A</sup>' && drawCard_2.rank === '<sup>A</sup>') {
+      handCards.push(drawCard_2.alt_value);
+    } else {
+      handCards.push(drawCard_2.value);
+    }
 
-    // count dealer hand value
-    // dealerCards.push(cardValues[dealerCard_1.innerHTML.slice(0, 1)]);
-    // dealerCards.push(cardValues[dealerCard_2.innerHTML.slice(0, 1)]);
-
+    // add dealer card values to hand
     dealerCards.push(drawCard_3.value);
-    dealerCards.push(drawCard_4.value);
+    // if 2 Aces are drawn intially, use alternate value for the 2nd Ace
+    if (drawCard_3.rank === '<sup>A</sup>' && drawCard_4.rank === '<sup>A</sup>') {
+      dealerCards.push(drawCard_4.alt_value);
+    } else {
+      dealerCards.push(drawCard_4.value);
+    }
 
-    // check for split
-    // if (newCard_1.innerHTML.slice(0, 1) === newCard_2.innerHTML.slice(0, 1)) {
-    //   split_button.disabled = false;
-    // };
-
+    // check, if split should be allowed
     if (drawCard_1.rank === drawCard_2.rank) {
       split_button.disabled = false;
     }
@@ -170,24 +170,40 @@ function hitCard() {
     newCard.innerHTML = drawCard_5.rank;
     newCard.innerHTML += drawCard_5.suit;
 
-    handCards.push(drawCard_5.value);
+    // if next drawn card is an Ace and hand value would exceed 21,
+    // alternate value for the Ace is used
+    if (drawCard_5.rank === '<sup>A</sup>' && handSum(handCards) + drawCard_5.value > 21) {
+      handCards.push(drawCard_5.alt_value);
+    } else {
+      // else, if adding the value of next drawn card would exceed 21
+      // and there are Aces in hand, their values of 11 are removed from the hand
+      // and a value of 1 is pushed in, before adding the value of the next drawn card
+      let aceIndex = handCards.indexOf(11);
+      if (handSum(handCards) + drawCard_5.value > 21 && aceIndex > -1) {
+        handCards.splice(aceIndex, 1);
+        handCards.push(1);
+        handCards.push(drawCard_5.value);
+      } else {
+        handCards.push(drawCard_5.value);
+      }
+    }
 
     target.appendChild(newCard);
     total.innerHTML = handSum(handCards);
 
-    aceAdjustmentPlayer();
-
-    if (total.innerHTML.slice(-2) == 21) {
+    // auto-stand if score is 21
+    if (handSum(handCards) == 21) {
       hit_button.disabled = true;
       standPlayer();
     }
 
     // player bust handler
-    if (total.innerHTML.slice(-2) > 21) {
+    if (handSum(handCards) > 21) {
       playerBustCondition = true;
       hit_button.disabled = true;
       stand_button.disabled = true;
     }
+
   }
 };
 
@@ -205,12 +221,26 @@ function hitCardDealer() {
   newCard.innerHTML += drawCard_6.suit;
 
 
-  dealerCards.push(drawCard_6.value);
+  // if next drawn card is an Ace and hand value would exceed 21,
+  // alternate value for the Ace is used
+  if (drawCard_6.rank === '<sup>A</sup>' && handSum(dealerCards) + drawCard_6.value > 21) {
+    dealerCards.push(drawCard_6.alt_value);
+  } else {
+    // else, if adding the value of next drawn card would exceed 21
+    // and there are Aces in hand, their values of 11 are removed from the hand
+    // and a value of 1 is pushed in, before adding the value of the next drawn card
+    let aceIndex = dealerCards.indexOf(11);
+    if (handSum(dealerCards) + drawCard_6.value > 21 && aceIndex > -1) {
+      dealerCards.splice(aceIndex, 1);
+      dealerCards.push(1);
+      dealerCards.push(drawCard_6.value);
+    } else {
+      dealerCards.push(drawCard_6.value);
+    }
+  }
 
   targetDealer.appendChild(newCard);
   totalDealer.innerHTML = handSum(dealerCards);
-
-  aceAdjustmentDealer();
 
   // dealer bust handler
   if (totalDealer.innerHTML.slice(-2) > 21) {
@@ -234,7 +264,23 @@ function doubleDown() {
   newCard.innerHTML += drawCard_7.suit;
 
 
-  handCards.push(drawCard_7.value);
+  // if next drawn card is an Ace and hand value would exceed 21,
+  // alternate value for the Ace is used
+  if (drawCard_7.rank === '<sup>A</sup>' && handSum(handCards) + drawCard_7.value > 21) {
+    handCards.push(drawCard_7.alt_value);
+  } else {
+    // else, if adding the value of next drawn card would exceed 21
+    // and there are Aces in hand, their values of 11 are removed from the hand
+    // and a value of 1 is pushed in, before adding the value of the next drawn card
+    let aceIndex = handCards.indexOf(11);
+    if (handSum(handCards) + drawCard_7.value > 21 && aceIndex > -1) {
+      handCards.splice(aceIndex, 1);
+      handCards.push(1);
+      handCards.push(drawCard_7.value);
+    } else {
+      handCards.push(drawCard_7.value);
+    }
+  }
 
   target.appendChild(newCard);
   total.innerHTML = handSum(handCards);
@@ -242,10 +288,8 @@ function doubleDown() {
   betValue.value = parseInt(betValue.value) * 2;
   moneyValue.innerHTML = parseInt(moneyValue.innerHTML) - (parseInt(betValue.value) / 2);
 
-  aceAdjustmentPlayer();
-
   // player bust handler
-  if (total.innerHTML.slice(-2) > 21) {
+  if (handSum(handCards) > 21) {
     playerBustCondition = true;
     hit_button.disabled = true;
     stand_button.disabled = true;
@@ -261,7 +305,7 @@ function checkBlackJack() {
   const betValue = document.getElementById('betValue');
   const moneyValue = document.getElementById('moneyValue');
 
-  if (total.innerHTML.slice(-2) == 21) {
+  if (handSum(handCards) == 21) {
     alert('BLACKJACK!');
     hit_button.disabled = true;
     stand_button.disabled = true;
@@ -272,7 +316,7 @@ function checkBlackJack() {
 
 // at the start of each round, check if dealer has BlackJack, in which case the dealer wins and round ends
 function checkDealerBlackJack() {
-  if (totalDealer.innerHTML.slice(-2) == 21) {
+  if (handSum(dealerCards) == 21) {
     alert('DEALER BLACKJACK!');
     hit_button.disabled = true;
     stand_button.disabled = true;
@@ -370,13 +414,6 @@ function loseMoney() {
   }
 };
 
-// function for pushing, as in, when the round ends with equal scores for player and dealer
-// function pushMoney() {
-//   if (!playerSplitCondition) {
-//     moneyValue.innerHTML = parseInt(moneyValue.innerHTML) + (parseInt(betValue.value));
-//   }
-// };
-
 // automated procedure for the dealer
 // dealer hits as long as his score is below 17, then stands
 function autoDealer() {
@@ -386,32 +423,6 @@ function autoDealer() {
     hit_button_dealer.click();
   }
   stand_button_dealer.click();
-};
-
-// function to adjust player score, in case player holds an Ace
-// since the Ace has a single value of 11, drawn from the values array, this is a workaround to imitate
-// the Ace also having the value of 1 - after the adjustment, player's score is reduced by 10 points for each Ace in hand, if player's score > 21
-function aceAdjustmentPlayer() {
-  let score = total.innerHTML;
-  let aceCheck = handCards.find(function (element) { return element == 11 });
-
-  if (parseInt(score) > 21 && aceCheck) {
-    score -= 10;
-  }
-
-  total.innerHTML = score;
-};
-
-// same function to adjust the dealer's score, if there are Aces present on the dealer's side of the table
-function aceAdjustmentDealer() {
-  let score = totalDealer.innerHTML;
-  let aceCheck = dealerCards.find(function (element) { return element == 11 });
-
-  if (parseInt(score) > 21 && aceCheck) {
-    score -= 10;
-  }
-
-  totalDealer.innerHTML = score;
 };
 
 function setBet() {
@@ -464,8 +475,15 @@ function splitCards() {
   splitLeft.appendChild(firstCardClone);
   splitRight.appendChild(secondCardClone);
 
-  handCardsLeft.push((handSum(handCards)) / 2);
-  handCardsRight.push((handSum(handCards)) / 2);
+
+  // push both card values to separate arrays
+  // ensure, if the 2nd card was a converted Ace, 11 is pushed, not 1
+  handCardsLeft.push(handCards[0]);
+  if (handCards[1] == 1) {
+    handCardsRight.push(11);
+  } else {
+    handCardsRight.push(handCards[1]);
+  }
 
   total_split_left.innerHTML = handSum(handCardsLeft);
   total_split_right.innerHTML = handSum(handCardsRight);
@@ -494,20 +512,34 @@ function hitCardLeft() {
     newCard.innerHTML = drawCard_8.rank;
     newCard.innerHTML += drawCard_8.suit;
 
-    handCardsLeft.push(drawCard_8.value);
+    // if next drawn card is an Ace and hand value would exceed 21,
+    // alternate value for the Ace is used
+    if (drawCard_8.rank === '<sup>A</sup>' && handSum(handCardsLeft) + drawCard_8.value > 21) {
+      handCardsLeft.push(drawCard_8.alt_value);
+    } else {
+      // else, if adding the value of next drawn card would exceed 21
+      // and there are Aces in hand, their values of 11 are removed from the hand
+      // and a value of 1 is pushed in, before adding the value of the next drawn card
+      let aceIndex = handCardsLeft.indexOf(11);
+      if (handSum(handCardsLeft) + drawCard_8.value > 21 && aceIndex > -1) {
+        handCardsLeft.splice(aceIndex, 1);
+        handCardsLeft.push(1);
+        handCardsLeft.push(drawCard_8.value);
+      } else {
+        handCardsLeft.push(drawCard_8.value);
+      }
+    }
 
     target.appendChild(newCard);
     total_split_left.innerHTML = handSum(handCardsLeft);
 
-    //  ace adjustment
-
-    if (total_split_left.innerHTML.slice(-2) == 21) {
+    if (handSum(handCardsLeft) == 21) {
       hit_button_split_left.disabled = true;
       standPlayerSplitLeft();
     }
 
     // left hand bust handler
-    if (total_split_left.innerHTML.slice(-2) > 21) {
+    if (handSum(handCardsLeft) > 21) {
       hit_button_split_left.disabled = true;
       stand_button_split_left.disabled = true;
       playerBustCondition_left = true;
@@ -538,20 +570,36 @@ function hitCardRight() {
     newCard.innerHTML = drawCard_9.rank;
     newCard.innerHTML += drawCard_9.suit;
 
-    handCardsRight.push(drawCard_9.value);
+    // if next drawn card is an Ace and hand value would exceed 21,
+    // alternate value for the Ace is used
+    if (drawCard_9.rank === '<sup>A</sup>' && handSum(handCardsRight) + drawCard_9.value > 21) {
+      handCardsRight.push(drawCard_9.alt_value);
+    } else {
+      // else, if adding the value of next drawn card would exceed 21
+      // and there are Aces in hand, their values of 11 are removed from the hand
+      // and a value of 1 is pushed in, before adding the value of the next drawn card
+      let aceIndex = handCardsRight.indexOf(11);
+      if (handSum(handCardsRight) + drawCard_9.value > 21 && aceIndex > -1) {
+        handCardsRight.splice(aceIndex, 1);
+        handCardsRight.push(1);
+        handCardsRight.push(drawCard_9.value);
+      } else {
+        handCardsRight.push(drawCard_9.value);
+      }
+    }
 
     target.appendChild(newCard);
     total_split_right.innerHTML = handSum(handCardsRight);
 
     //  ace adjustment
 
-    if (total_split_right.innerHTML.slice(-2) == 21) {
+    if (handSum(handCardsRight) == 21) {
       hit_button_split_right.disabled = true;
       standPlayerSplitRight();
     }
 
     // right hand bust handler
-    if (total_split_right.innerHTML.slice(-2) > 21) {
+    if (handSum(handCardsRight) > 21) {
       hit_button_split_right.disabled = true;
       stand_button_split_right.disabled = true;
       playerBustCondition_right = true;

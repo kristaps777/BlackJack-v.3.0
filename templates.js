@@ -379,6 +379,7 @@ const cardDeck = [
 // the problem here is the Ace, because it can have 2 values - 1 or 11
 // I still need to figure out a solution for the Aces!!!
 // UPDATE - partial solution achieved via aceAdjustmnt(); problem persists when 2 Aces are drawn
+// UPDATE - solution achieved via using a different deck template with cards as objects
 const cardValues = {
   '2': 2,
   '3': 3,
