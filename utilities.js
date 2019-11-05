@@ -411,7 +411,7 @@ function aceAdjustmentDealer() {
     score -= 10;
   }
 
-  total.innerHTML = score;
+  totalDealer.innerHTML = score;
 };
 
 function setBet() {
