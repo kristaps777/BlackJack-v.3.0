@@ -1,0 +1,147 @@
+* {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  text-decoration: none;
+  box-sizing: border-box;
+}
+
+body {
+  height: 100vh;
+}
+
+main {
+  height: fit-content;
+  width: 100%;
+  background-color: lightgreen;
+  padding: 20px;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+input {
+  width: 80px;
+  text-align: center;
+}
+
+.buttons_section {
+  flex-direction: column;
+  align-items: center;
+}
+
+
+.split_section {
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  height: fit-content;
+  justify-content: center;
+}
+
+.split_row {
+  justify-content: center;
+  align-items: center;
+}
+
+.top_row {
+  width: 100%;
+  height: 50px;
+  display: grid;
+  justify-content: center;
+  grid-template-columns: repeat(6, min-content);
+  grid-template-rows: min-content;
+  margin: 10px 0;
+}
+
+.bottom_row {
+  justify-content: center;
+  align-items: center;
+  margin: 10px 0;
+}
+
+.player_card,
+.dealer_card {
+  font-family: 'Indie Flower', cursive;
+  height: 50px;
+  width: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px dashed black;
+  border-radius: 5px;
+  font-size: 1.5em;
+  font-weight: bold;
+  background-color: #fff;
+}
+
+.player_card img,
+.dealer_card img {
+  width: 60%;
+  height: auto;
+}
+
+.buttons {
+  margin: 20px 0;
+}
+
+.hidden {
+  transform: rotateY(90deg);
+}
+
+#dealerValue::before {
+  content: 'DEALER SCORE: ';
+}
+
+#handValue::before {
+  content: 'PLAYER SCORE: ';
+}
+
+#moneyValue::before {
+  content: 'MONEY: ';
+}
+
+#handValueLeft::before {
+  content: 'PLAYER SCORE LEFT: ';
+}
+
+#handValueRight::before {
+  content: 'PLAYER SCORE RIGHT: ';
+}
+
+#baseBet {
+  margin-left: 20px;
+}
+
+@media (min-width: 769px) {
+.player_card,
+.dealer_card {
+  height: 60px;
+  width: 40px;
+}
+
+.top_row {
+  height: 80px;
+}
+}
+
+/* reusables */
+.flex {
+  display: flex;
+}
+
+.margin_right {
+  margin-right: 10px;
+}
+
+.column {
+  flex-direction: column;
+}
+
+.justify_center {
+  justify-content: center;
+}
+
+.align_center {
+  align-items: center;
+}

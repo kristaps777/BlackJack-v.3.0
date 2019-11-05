@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="en">
+
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- favicon -->
+    <link rel="shortcut icon" href="#">
+    <!-- style -->
+    <link rel="stylesheet" href="style.css">
+    <!-- google font -->
+    <link href="https://fonts.googleapis.com/css?family=Indie+Flower&display=swap" rel="stylesheet">
+
+    <!-- JS -->
+    <script src="templates.js" defer></script>
+    <script src="utilities.js" defer></script>
+    <script src="exec.js" defer></script>
+
+    <title>blackJack</title>
+  </head>
+
+  <body>
+
+    <main class="flex">
+
+      <!-- dealer's cards -->
+      <div class="top_row" id="dealer_row"></div>
+
+      <!-- dealer' score -->
+      <div id="dealerValue" class="hidden"></div>
+
+      <!-- player's cards -->
+      <div class="top_row" id="top_row"></div>
+
+      <!-- player's cards & score (split) -->
+      <section class="split_section flex" id="splitSection">
+        <div class="flex">
+          <div class="flex column justify_center align_center">
+            <input type="number" id="betValueLeft" disabled>
+            <div class="top_row margin_right" id="split_row_left"></div>
+            <div class="buttons flex justify_center">
+              <button type="button" name="button" id="hit_button_split_left" onclick="hitCardLeft()">Hit Left</button>
+              <button type="button" name="button" id="stand_button_split_left" onclick="standPlayerSplitLeft()">Stand
+                Left</button>
+            </div>
+          </div>
+          <div class="flex column justify_center align_center">
+            <input type="number" id="betValueRight" disabled>
+            <div class="top_row" id="split_row_right"></div>
+            <div class="buttons flex justify_center">
+              <button type="button" name="button" id="hit_button_split_right" onclick="hitCardRight()">Hit
+                Right</button>
+              <button type="button" name="button" id="stand_button_split_right" onclick="standPlayerSplitRight()">Stand
+                Right</button>
+            </div>
+          </div>
+        </div>
+        <div class="split_row flex">
+          <div class="margin_right" id="handValueLeft"></div>
+          <div id="handValueRight"></div>
+        </div>
+      </section>
+
+      <!-- player's score -->
+      <div class="bottom_row flex">
+        <div id="handValue"></div>
+      </div>
+
+      <!-- current bet -->
+      <div class="bottom_row flex">
+        <input type="number" id="betValue" disabled>
+      </div>
+
+      <!-- player's money & bet amount -->
+      <div class="bottom_row flex">
+        <div id="moneyValue">
+          500
+        </div>
+        <input type="number" id="baseBet" placeholder="Enter bet amount here" value="100" min="1"
+          onkeypress="handle(event)">
+        <button type="button" name="button" id="set_bet_button" onclick="setBet()">Bet</button>
+      </div>
+
+
+
+    </main>
+
+    <!-- buttons section -->
+    <section class="buttons_section flex">
+      <!-- player's buttons -->
+      <div class="buttons">
+        <button type="button" name="button" id="deal_button" onclick="drawCards()">Deal</button>
+      </div>
+      <div class="buttons">
+        <button type="button" name="button" id="hit_button" onclick="hitCard()">Hit</button>
+        <button type="button" name="button" id="stand_button" onclick="standPlayer()">Stand</button>
+        <button type="button" name="button" id="split_button" onclick="splitCards()">Split</button>
+        <button type="button" name="button" id="double_down_button" onclick="doubleDown()">Double Down</button>
+      </div>
+      <!-- dealer's buttons -->
+      <div class="buttons">
+        <button type="button" name="button" id="hit_button_dealer" class="hidden" onclick="hitCardDealer()">Hit
+          (Dealer)</button>
+        <button type="button" name="button" id="stand_button_dealer" class="hidden" onclick="standDealer()">Stand
+          (Dealer)</button>
+      </div>
+    </section>
+
+  </body>
+
+</html>
