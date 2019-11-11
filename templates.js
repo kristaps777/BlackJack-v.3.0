@@ -343,23 +343,6 @@ const imgDeckTemplate = [
   }
 ];
 
-// the template for a sample 52 card deck
-const deckTemplate = [
-  '2♠️', '2♣️', '2♦️', '2♥️',
-  '3♠️', '3♣️', '3♦️', '3♥️',
-  '4♠️', '4♣️', '4♦️', '4♥️',
-  '5♠️', '5♣️', '5♦️', '5♥️',
-  '6♠️', '6♣️', '6♦️', '6♥️',
-  '7♠️', '7♣️', '7♦️', '7♥️',
-  '8♠️', '8♣️', '8♦️', '8♥️',
-  '9♠️', '9♣️', '9♦️', '9♥️',
-  '10♠️', '10♣️', '10♦️', '10♥️',
-  'J♠️', 'J♣️', 'J♦️', 'J♥️',
-  'Q♠️', 'Q♣️', 'Q♦️', 'Q♥️',
-  'K♠️', 'K♣️', 'K♦️', 'K♥️',
-  'A♠️', 'A♣️', 'A♦️', 'A♥️'
-];
-
 // the shoe
 // consists of 6 deck templates that are cloned into a new array
 const cardDeck = [
@@ -370,28 +353,3 @@ const cardDeck = [
   ...imgDeckTemplate,
   ...imgDeckTemplate
 ];
-
-// this array contains the real (point) values of each card
-// as cards are drawn from the shoe, the 1st character of the string is sliced off to deterine the type of card
-// the character is then compared against this array to determine the point value of the card
-// since only the 1st character is sliced off and there are no more possible cards that begin with a '1',
-// the point value of '1' equals 10
-// the problem here is the Ace, because it can have 2 values - 1 or 11
-// I still need to figure out a solution for the Aces!!!
-// UPDATE - partial solution achieved via aceAdjustmnt(); problem persists when 2 Aces are drawn
-// UPDATE - solution achieved via using a different deck template with cards as objects
-const cardValues = {
-  '2': 2,
-  '3': 3,
-  '4': 4,
-  '5': 5,
-  '6': 6,
-  '7': 7,
-  '8': 8,
-  '9': 9,
-  '1': 10,
-  'J': 10,
-  'Q': 10,
-  'K': 10,
-  'A': 11
-};
