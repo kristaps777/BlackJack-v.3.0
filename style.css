@@ -40,6 +40,11 @@ input {
   text-align: center;
 }
 
+input:disabled::-webkit-inner-spin-button, 
+input:disabled::-webkit-outer-spin-button { 
+  -webkit-appearance: none; 
+}
+
 button {
   width: 80px;
   height: 30px;
