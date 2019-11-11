@@ -7,10 +7,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <!-- favicon -->
     <link rel="shortcut icon" href="#">
+    <!-- google font -->
+    <link href="https://fonts.googleapis.com/css?family=Indie+Flower" rel="preload" as="font">
     <!-- style -->
     <link rel="stylesheet" href="style.css">
-    <!-- google font -->
-    <link href="https://fonts.googleapis.com/css?family=Indie+Flower&display=swap" rel="stylesheet">
 
     <!-- JS -->
     <script src="templates.js" defer></script>
@@ -77,10 +77,11 @@
         <div id="moneyValue">
           500
         </div>
-        <input type="number" id="baseBet" placeholder="Enter bet amount here" value="100" min="1"
+        <input type="number" id="baseBet" placeholder="Enter bet amount here" value="100" min="1" step="50"
           onkeypress="handle(event)">
-        <button type="button" name="button" id="set_bet_button" onclick="setBet()">Bet</button>
       </div>
+
+      <button type="button" name="button" id="set_bet_button" onclick="setBet()">Bet</button>
 
 
 
@@ -95,17 +96,36 @@
       <div class="buttons">
         <button type="button" name="button" id="hit_button" onclick="hitCard()">Hit</button>
         <button type="button" name="button" id="stand_button" onclick="standPlayer()">Stand</button>
+      </div>
+      <div class="buttons">
         <button type="button" name="button" id="split_button" onclick="splitCards()">Split</button>
-        <button type="button" name="button" id="double_down_button" onclick="doubleDown()">Double Down</button>
+        <button type="button" name="button" id="double_down_button" onclick="doubleDown()">Double</button>
       </div>
       <!-- dealer's buttons -->
-      <div class="buttons">
-        <button type="button" name="button" id="hit_button_dealer" class="hidden" onclick="hitCardDealer()">Hit
+      <div class="buttons none">
+        <button type="button" name="button" id="hit_button_dealer" onclick="hitCardDealer()">Hit
           (Dealer)</button>
-        <button type="button" name="button" id="stand_button_dealer" class="hidden" onclick="standDealer()">Stand
+        <button type="button" name="button" id="stand_button_dealer" onclick="standDealer()">Stand
           (Dealer)</button>
       </div>
     </section>
+
+
+    <!-- card image preload -->
+    <script type="text/javascript">
+      let preload = new Array();
+
+      preload[0] = "/img/clubs.png";
+      preload[1] = "/img/diamonds.png";
+      preload[2] = "/img/hearts.png";
+      preload[3] = "/img/spades.png";
+
+      let loadedimages = new Array();
+      for (let i = 0; i < preload.length; i++) {
+        loadedimages[i] = new Image();
+        loadedimages[i].src = preload[i];
+      }
+    </script>
 
   </body>
 

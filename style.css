@@ -10,11 +10,26 @@ body {
   height: 100vh;
 }
 
+body:before {
+    content: "";
+    display: block;
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    min-height: -webkit-fill-available;
+    height: 100vh;
+    z-index: -10;
+    background: url("../img/cards.jpg") no-repeat center center;
+    background-size: cover;
+    filter: brightness(40%) grayscale();
+}
+
 main {
   height: fit-content;
   width: 100%;
-  background-color: lightgreen;
-  padding: 20px;
+  background-color: rgba(144, 238, 144, .6);
+  padding: 10px;
   justify-content: center;
   align-items: center;
   flex-direction: column;
@@ -23,6 +38,25 @@ main {
 input {
   width: 80px;
   text-align: center;
+}
+
+button {
+  width: 80px;
+  height: 30px;
+  background-color: #659AB0;
+  border: none;
+}
+
+button:disabled {
+  opacity: 0; 
+}
+
+button:focus {
+  outline: none;
+}
+
+button:hover {
+  background-color: #BCE3F4;
 }
 
 .buttons_section {
@@ -63,30 +97,35 @@ input {
 .player_card,
 .dealer_card {
   font-family: 'Indie Flower', cursive;
+  -webkit-font-smoothing: antialiased;
   height: 50px;
   width: 30px;
   display: flex;
   justify-content: center;
   align-items: center;
-  border: 1px dashed black;
+  border: 1px solid black;
   border-radius: 5px;
-  font-size: 1.5em;
-  font-weight: bold;
+  font-size: 1.2em;
+  /* font-weight: bold; */
   background-color: #fff;
 }
 
 .player_card img,
 .dealer_card img {
-  width: 60%;
+  width: 50%;
   height: auto;
 }
 
 .buttons {
-  margin: 20px 0;
+  margin: 5px 0;
 }
 
 .hidden {
   transform: rotateY(90deg);
+}
+
+.none {
+  display: none;
 }
 
 #dealerValue::before {
@@ -118,6 +157,7 @@ input {
 .dealer_card {
   height: 60px;
   width: 40px;
+  font-size: 1.4em;
 }
 
 .top_row {

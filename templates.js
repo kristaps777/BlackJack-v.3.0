@@ -75,7 +75,7 @@ const clubs = '<img src="img/clubs.png" alt="clubs">';
 const diamonds = '<img src="img/diamonds.png" alt="diamonds">';
 const hearts = '<img src="img/hearts.png" alt="hearts">';
 
-// test deck with images
+// card deck template
 const imgDeckTemplate = [
   {
     value: 2,
